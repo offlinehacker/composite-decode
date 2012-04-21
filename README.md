@@ -12,7 +12,7 @@ Signal details:
 ===============
 - Fvz= 25Mhz
 - sample_delta= 0.04*10^(-8)
-- threshold_level= <-0.2
+- threshold_level= <-0.25
 
 PAL details:
 ------------
