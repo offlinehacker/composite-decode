@@ -6,7 +6,9 @@ Composite video decoder
 Urls
 ====
 
-http://martin.hinner.info/vga/pal.html
+- Najboljši vir: 
+  https://docs.google.com/open?id=14dwj5ERDFrDYs_hDrN4WXf3XDc9HMdZC6RCPWHsBG66jKPZchMHM7AH1T9qR
+- http://martin.hinner.info/vga/pal.html
 
 Signal details:
 ===============
