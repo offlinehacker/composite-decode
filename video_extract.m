@@ -96,7 +96,7 @@ function [video_mat,color_burst_mat]=video_extract(raw_video, sync_threshold)
 
                 %Extracting the line color burst frequency
                 start_of_color_burst=i-hsync_counter+hsync_low2color_burst;
-                color_burst=raw_video(start_of_color_burst:start_of_color_burst+color_burst_length,2);
+                color_burst=raw_video(start_of_color_burst:start_of_color_burst+color_burst_length-10,:);
 
 %               cb_interp=interp(color_burst,100)-color_burst(1);
 %               cb_sign=sign(cb_interp)+1;
@@ -106,6 +106,13 @@ function [video_mat,color_burst_mat]=video_extract(raw_video, sync_threshold)
     %            4)))*37e-11);
     %            %color burst phase 1=0 degrees -1=180 degrees
     %            color_burst_mat(line_number,2,field_number)=cb_sign(700)/2;
+    %i
+                pin=ones(1,3);
+                pin(2)=pal_frequency/(10^6);
+                pin(3)=90;
+                F=inline('abs(p(1))*sin(2*pi*p(2)*10^6*x+(p(3)/180)*pi)','x', 'p');
+                [f,p,kvg,iter,corp,covp,covr,stdresid,Z,r2]=leasqr(color_burst(:,1),color_burst(:,2),pin,F);
+                p
 
                 %reseting counters and progress i to the next line
                 i=start_of_active_vid+active_pxl_per_line-1;
