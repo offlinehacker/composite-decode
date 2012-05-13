@@ -1,4 +1,4 @@
-function [video_mat,color_burst_mat]=video_extract(raw_video, sync_threshold)
+function [video_mat, resample_time, color_burst_mat]=video_extract(raw_video, sync_threshold)
     % TODO: Calculate all parametera automatically
     [m,n]=size(raw_video);
 
@@ -66,9 +66,9 @@ function [video_mat,color_burst_mat]=video_extract(raw_video, sync_threshold)
     active_pxl_per_line= round((52*10^(-6))/sample_time);
     line_number=0;
     field_number=1;
-    hsync_low2active_video=round(9.2*(10^(-6))/sample_time); %active video is 9.2us from falling edge of HSYNC
+    hsync_low2active_video=round(10.4*(10^(-6))/sample_time); %active video is 9.2us from falling edge of HSYNC
     hsync_low2color_burst=round(5.3*(10^(-6))/sample_time);%color burst starts 5.3us from falling edge of HSYNC
-    color_burst_length=round(10*((1/pal_frequency)/sample_time));%color burst length is 9+-1 cycles of pal_frequency
+    color_burst_length=round(9*((1/pal_frequency)/sample_time));%color burst length is 9+-1 cycles of pal_frequency
 
     printf("Active pixels per line %d\n", active_pxl_per_line);
 
@@ -94,8 +94,8 @@ function [video_mat,color_burst_mat]=video_extract(raw_video, sync_threshold)
                 line_number=line_number+1;
                 start_of_active_vid=i-hsync_counter+hsync_low2active_video;
                 [resampled,h]= resample(raw_video(start_of_active_vid:start_of_active_vid+active_pxl_per_line-1,2),720,active_pxl_per_line);
-                m=size(resampled);
-                video_mat(line_number,:,field_number)= resampled(:);
+                video_mat(line_number,:,:,field_number)= resampled(:);
+                resample_time=sample_time*(720/active_pxl_per_line);
 
                 %Extracting the line color burst frequency
                 start_of_color_burst=i-hsync_counter+hsync_low2color_burst;
