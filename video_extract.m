@@ -94,7 +94,7 @@ function [video_mat, resample_time, color_burst_mat]=video_extract(raw_video, sy
                 line_number=line_number+1;
                 start_of_active_vid=i-hsync_counter+hsync_low2active_video;
                 [resampled,h]= resample(raw_video(start_of_active_vid:start_of_active_vid+active_pxl_per_line-1,2),720,active_pxl_per_line);
-                video_mat(line_number,:,:,field_number)= resampled(:);
+                video_mat(line_number,:,field_number)= resampled(:);
                 resample_time=sample_time*(720/active_pxl_per_line);
 
                 %Extracting the line color burst frequency
@@ -112,10 +112,11 @@ function [video_mat, resample_time, color_burst_mat]=video_extract(raw_video, sy
     %i
                 pin=ones(1,3);
                 pin(2)=pal_frequency/(10^6);
-                pin(3)=90;
-                F=inline('abs(p(1))*sin(2*pi*p(2)*10^6*x+(p(3)/180)*pi)','x', 'p');
+                pin(3)=pi;
+                F=inline('abs(p(1))*sin(2*pi*p(2)*10^6*x+p(3))','x', 'p');
                 [f,p,kvg,iter,corp,covp,covr,stdresid,Z,r2]=leasqr(color_burst(:,1),color_burst(:,2),pin,F);
                 color_burst_mat(line_number,:,field_number)=p;
+                p
 
                 %reseting counters and progress i to the next line
                 i=start_of_active_vid+active_pxl_per_line-1;
