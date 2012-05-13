@@ -38,7 +38,7 @@ function [video_mat,color_burst_mat]=video_extract(raw_video, sync_threshold)
                 vsync_progress=vsync_progress+1;
                 vsync_flag=0;
                 vsync_counter=0;
-                if vsync_progress == 6
+                if vsync_progress == 5
                     printf("First vsynch detected at sample %d\n", i);
                     end_of_1st_vsync=i
                     vsync_progress=0;
@@ -112,7 +112,7 @@ function [video_mat,color_burst_mat]=video_extract(raw_video, sync_threshold)
                 pin(3)=90;
                 F=inline('abs(p(1))*sin(2*pi*p(2)*10^6*x+(p(3)/180)*pi)','x', 'p');
                 [f,p,kvg,iter,corp,covp,covr,stdresid,Z,r2]=leasqr(color_burst(:,1),color_burst(:,2),pin,F);
-                p
+                color_burst_mat(line_number,:,field_number)=p;
 
                 %reseting counters and progress i to the next line
                 i=start_of_active_vid+active_pxl_per_line-1;
