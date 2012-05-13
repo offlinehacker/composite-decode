@@ -4,7 +4,7 @@ sample_time=m(2)-m(1);
 sample_frequency= 1/sample_time;
 frequency= sample_frequency/2;
 
-[b,a]= butter(12,5000000/frequency);
+[b,a]= butter(22,3000000/frequency);
 n=filtfilt(b,a,m);
 [frames,resample_time, colors] = video_extract(n);
 newf = frames(:,:,1) .+ abs(min(min(frames(:,:,1))));

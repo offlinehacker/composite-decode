@@ -1,2 +1,2 @@
-function [Y,C]=yc_demodulator(video_mat)
-    % TODO: Everything
+function [Y,C]=yc_demodulator(video_mat,sample_time)
+    
